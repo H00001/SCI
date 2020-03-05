@@ -1,0 +1,21 @@
+syntax = "proto3";
+service Verify {
+  rpc AcquireMagic (MagicInbound) returns (MagicOutbound);
+  rpc AcquireCalc (Base64Result) returns (VerifyResult);
+}
+
+message MagicInbound {
+    string uuid = 1;
+}
+
+message MagicOutbound {
+  string magic = 1;
+}
+
+message Base64Result {
+ string b65 = 1;
+}
+
+message VerifyResult {
+ string token = 1;
+}
