@@ -38,10 +38,13 @@ func main(){
 	t := connection.NewVerifyClient(conn)
 	fmt.Print("connection server ... \n")
 	tr, err := t.AcquireMagic(context.Background(), &connection.MagicInbound{ Uuid:uuid.NewV4().String()})
-	fmt.Printf("verifying... UUID:%s\n",tr.Magic)
-	t.AcquireCalc(context.Background(),&connection.Base64Result{B65:tr.Magic})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+	if err != nil{
+		log.Fatalf("connect error: %v",err)
 	}
-	fmt.Printf("connected!:%s\n",tr.Magic)
+	fmt.Printf("verifying... UUID:%s\n",tr.Magic)
+	token,err :=t.AcquireCalc(context.Background(),&connection.Base64Result{B65:tr.Magic})
+	if err != nil {
+		log.Fatalf("could not check sha256: %v", err)
+	}
+	fmt.Printf("connected!:%s\n",token.Token)
 }
