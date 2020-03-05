@@ -51,5 +51,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not check sha256: %v", err)
 	}
-	fmt.Printf("connected!:%s\n", token.Token)
+	fmt.Printf("connected!:token:%s\n", token.Token)
 }
