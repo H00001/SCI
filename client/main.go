@@ -16,9 +16,13 @@ import (
 )
 
 func main(){
-	if os.Args[0] == "--upgrade" {
-		fmt.Print("updating...")
-		res, _ := http.Get("https://p.gunplan.top/tools/SCI_client_" + runtime.GOOS)
+	if os.Args[1] == "--upgrade" {
+		fmt.Printf("updating... :%s\n",runtime.GOOS)
+		res, err := http.Get("https://p.gunplan.top/tools/SCI_client_" + runtime.GOOS)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
 		suffix := ""
 		if runtime.GOOS == "windows" {
 			suffix = ".exe"
