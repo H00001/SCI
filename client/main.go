@@ -44,7 +44,7 @@ func main() {
 	fmt.Print("connection server ... \n")
 	tr, err := t.AcquireMagic(context.Background(), &connection.MagicInbound{Uuid: uuid.NewV4().String()})
 	if err != nil {
-		log.Fatalf("connect error: %v", err)
+		log.Fatalf("connect error reason: %v", err)
 	}
 	fmt.Printf("verifying... UUID:%s\n", tr.Magic)
 	token, err := t.AcquireCalc(context.Background(), &connection.Base64Result{B65: tr.Magic})
