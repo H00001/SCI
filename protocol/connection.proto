@@ -1,4 +1,6 @@
 syntax = "proto3";
+package protocol;
+
 service Verify {
   rpc AcquireMagic (MagicInbound) returns (MagicOutbound);
   rpc AcquireCalc (Base64Result) returns (VerifyResult);

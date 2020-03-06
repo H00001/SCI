@@ -28,16 +28,25 @@ func main() {
 		log.Fatalf("cnnection fail: %v", err)
 	}
 	defer conn.Close()
-	t := connection.NewVerifyClient(conn)
-	show("connection server ... ", blue)
-	tr, err := t.AcquireMagic(context.Background(), &connection.MagicInbound{Uuid: uuid.NewV4().String()})
+	t := protocol.NewVerifyClient(conn)
+	show("protocol server ... ", blue)
+	tr, err := t.AcquireMagic(context.Background(), &protocol.MagicInbound{Uuid: uuid.NewV4().String()})
 	if err != nil {
 		log.Fatalf("connect error reason: %v", err)
+		return
 	}
 	show("verifying... UUID:"+tr.Magic, yellow)
-	token, err := t.AcquireCalc(context.Background(), &connection.Base64Result{B65: tr.Magic})
+	token, err := t.AcquireCalc(context.Background(), &protocol.Base64Result{B65: tr.Magic})
 	if err != nil {
 		log.Fatalf("could not check sha256: %v", err)
+		return
 	}
 	fmt.Printf("connected!:token:%s\n", token.Token)
+	con := protocol.NewPageClient(conn)
+	for {
+		var d string
+		fmt.Scanln(&d)
+		data, _ := con.DoDown(context.Background(), &protocol.PageInbound{Content: d})
+		fmt.Print(data.Content)
+	}
 }

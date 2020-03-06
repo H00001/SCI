@@ -1,0 +1,13 @@
+syntax = "proto3";
+package protocol;
+service Page {
+    rpc doDown (PageInbound) returns (PageOutbound);
+}
+
+message PageInbound {
+    string content = 1;
+}
+
+message PageOutbound {
+    string content = 1;
+}
