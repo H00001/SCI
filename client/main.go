@@ -47,6 +47,6 @@ func main() {
 		var d string
 		fmt.Scanln(&d)
 		data, _ := con.DoDown(context.Background(), &protocol.PageInbound{Content: d})
-		fmt.Print(data.Content)
+		fmt.Printf("server reply:%s\n", data.Content)
 	}
 }
