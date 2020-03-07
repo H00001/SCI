@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/satori/go.uuid"
 	"google.golang.org/grpc"
+	"gunplan.top/SCI/common"
 	"gunplan.top/SCI/protocol"
 	"io/ioutil"
 	"log"
@@ -18,9 +19,8 @@ func main() {
 		UpdateSystem()
 		return
 	}
-	url := "https://p.gunplan.top/tools/serverlist.html"
-	show("Get data from:"+url, green)
-	resp, err := http.Get(url)
+	show("Get data from:"+common.ServerList, green)
+	resp, err := http.Get(common.ServerList)
 	body, err := ioutil.ReadAll(resp.Body)
 	s := string(body)
 	conn, err := grpc.Dial(strings.Split(s, "\n")[0], grpc.WithInsecure())
@@ -41,11 +41,14 @@ func main() {
 		log.Fatalf("could not check sha256: %v", err)
 		return
 	}
-	fmt.Printf("connected!:token:%s\n", token.Token)
+	show("connected!:token:"+token.Token,white)
 	con := protocol.NewPageClient(conn)
 	for {
 		var d string
-		fmt.Scanln(&d)
+		_, _ = fmt.Scanln(&d)
+		if len(strings.TrimSpace(d)) == 0 {
+			continue
+		}
 		data, _ := con.DoDown(context.Background(), &protocol.PageInbound{Content: d})
 		fmt.Printf("server reply:%s\n", data.Content)
 	}
