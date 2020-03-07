@@ -16,7 +16,7 @@ import (
 
 func main() {
 	if len(os.Args) == 2 && os.Args[1] == "--upgrade" {
-		UpdateSystem()
+		UpdateSystem(os.Args[0])
 		return
 	}
 	show("Get data from:"+common.ServerList, green)
@@ -41,7 +41,7 @@ func main() {
 		log.Fatalf("could not check sha256: %v", err)
 		return
 	}
-	show("connected!:token:"+token.Token,white)
+	show("connected!:token:"+token.Token, white)
 	con := protocol.NewPageClient(conn)
 	for {
 		var d string
